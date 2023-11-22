@@ -1,0 +1,2 @@
+# Ignore firebase configuration details
+src/firebaseConfig.js';
