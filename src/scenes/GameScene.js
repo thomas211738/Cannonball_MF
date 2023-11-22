@@ -1,5 +1,4 @@
 import InstructionBox from "../classes/instructionBox.js";
-import experimentMonitor from "../experimentProgressMonitor.js";
 import Cannon from "../classes/cannon.js";
 import Ball from "../classes/ball.js";
 import TwinklingStars from "../classes/twinklingStars.js";
@@ -11,10 +10,7 @@ import {
     ScoreAnnouncementText,
 } from "../classes/ui.js";
 import Asteroids from "../classes/asteroids.js";
-import {
-    doc,
-    updateDoc,
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { saveData } from "../data.js";
 
 class GameScene extends Phaser.Scene {
     constructor(key) {
@@ -814,14 +810,6 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    updateExperimentProgressMonitor() {
-        // Increment experiment progress
-        // experimentMonitor.incrementProgress(
-        //     "cannonball_game",
-        //     this.game.registry.values.subjectID,
-        //     1
-        // );
-    }
 
     handleEndScene() {
         if (this.trialNumber === this.totalTrials) {
@@ -857,27 +845,10 @@ class GameScene extends Phaser.Scene {
      * Saves the trial data to the Firestore database.
      */
     saveData() {
-        // Get a reference to the document in the Firestore database
-        const docRef = doc(
-            this.game.config.db,
-            "cannonball_TU",
-            this.game.config.studyID,
-            "subjects",
-            this.game.config.uid
-        );
 
-        // Update the document with the trial data
-        updateDoc(docRef, {
-            trial_data: this.game.registry.values.data,
-        })
-            .then(() => {
-                // Log a success message when the data is successfully updated
-                console.log("Data successfully updated!");
-            })
-            .catch((error) => {
-                // Log an error message if there is an error updating the document
-                console.error("Error updating document: ", error);
-            });
+        // Use the saveData function from data.js
+        saveData(this);
+
     }
 
     1;

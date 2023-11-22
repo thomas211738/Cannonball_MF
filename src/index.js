@@ -1,13 +1,6 @@
-// Scenes
-import experimentMonitor from "./experimentProgressMonitor.js";
-
 // Firebase
 import { signInAndGetUid, db } from "./firebaseSetup.js";
-import {
-    doc,
-    setDoc,
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-
+import { initSubject } from "./data.js";
 // Other things
 import { extractUrlVariables, applyGameConfig } from "./utils.js";
 import gameConfig from './gameConfig.js';
@@ -27,15 +20,6 @@ var startGame = function (uid) {
 
     // Wait a bit before starting
     setTimeout(function () {
-        // Init experiment monitor
-        // experimentMonitor.init(
-        //     'https://us-central1-experiment-tracker-a7632.cloudfunctions.net',
-        //     'zmDccA_O3wpKLy5EeoS_g',
-        //     'cannonball_TU',
-        //     true
-        // )
-
-        // experimentMonitor.registerSubject('cannonball_game', subjectID);
 
         // Create the game with the configuration object defined above
         let game = new Phaser.Game(gameConfig);
@@ -59,33 +43,13 @@ var startGame = function (uid) {
         // Store task type in registry
         game.registry.set("task", task);
 
-        // Update firebase data
-        const docRef = doc(
-            db,
-            "cannonball_TU",
-            game.config.studyID,
-            "subjects",
-            uid
-        );
-
-        setDoc(docRef, {
-            subjectID: subjectID,
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString(),
-            trial_data: [],
-            attention_checks: [],
-        })
-            .then(() => {
-                console.log("Data successfully written!");
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-
         // Store the database and uid in the game config
         game.config.db = db;
         game.config.uid = uid;
 
+        // Initialise the subject in the database
+        initSubject(game);
+    
         // Store the start time in the registry
         game.registry.set("start_time", new Date());
 

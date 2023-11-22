@@ -292,6 +292,10 @@ class TrainingScene extends GameScene {
         this.timeSinceStepShown += this.game.loop.delta;
     }
 
+    saveData() {
+        // Don't save data during training
+    }
+
     stepTraining() {
         // Reset time since step shown
         this.timeSinceStepShown = 0;
