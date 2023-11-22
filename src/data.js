@@ -37,19 +37,19 @@ export function initSubject(game) {
  * Saves the trial data to the Firestore database.
  * @param {object} scene - The scene object.
  */
-export function saveData(scene) {
+export function saveData(game) {
     // Get a reference to the document in the Firestore database
     const docRef = doc(
-        scene.game.config.db,
+        game.config.db,
         "cannonball_TU",
-        scene.game.config.studyID,
+        game.config.studyID,
         "subjects",
-        scene.game.config.uid
+        game.config.uid
     );
 
     // Update the document with the trial data
     updateDoc(docRef, {
-        trial_data: scene.game.registry.values.data,
+        trial_data: game.registry.get("data"),
     })
         .then(() => {
             // Log a success message when the data is successfully updated

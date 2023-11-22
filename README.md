@@ -1,0 +1,88 @@
+# Cannon ball game
+
+## Overview
+
+This task is an extension of the "Cannon Blast" game developed by the [Gillan Lab](https://gillanlab.com/), reported in [Donegan et al. (2023)](https://psyarxiv.com/hpm4s/).
+The original task represents a gamified version of the ["two-step" task](http://www.sciencedirect.com/science/article/pii/S0896627311001255) and assesses the extent to which individuals use model-based or model-free decision-making strategies.
+
+![Image Description](./task_screenshot.png)
+
+
+This task works similarly, but instead of giving participants the task structure (in this case, the colour of the balls fired by the cannon) and asking them to learn the likelihood of the balls being good or bad (i.e., exploding before hitting the target), we provide participants with the likelihood of the balls being good or bad and ask them to learn the task structure (i.e., the colour of the balls fired by the cannon). This allows us to assess how participants learn the task structure, rather than the reward probabilities.
+
+The code here is designed to allow the task to be run in three different configurations:
+
+
+| Task Configuration        | Description                                                                                           |
+|---------------------------|-------------------------------------------------------------------------------------------------------|
+| Transition learning task | Assesses task structure learning. Participants are provided with the likelihood of good or bad balls and asked to learn the task structure (color of balls fired by the cannon). |
+| Two-step task             | Assesses the use of model-free versus model-based decision-making. Participants are given the task structure and asked to learn the likelihood of balls being good or bad. |
+| Model-free learning task  | Assesses reward probability learning without the requirement for task structure learning. There is no structure to be learnt, and participants must simply learn the probability of good or bad balls.
+
+## Running the task
+
+### Task configuration
+
+The task can be run in three different configurations, as described above. The task configuration can be set through the `TASK` URL parameter. The task configuration can be set to one of the following values:
+
+
+| Task Configuration                 | URL parameter value |
+|------------------------------------|---------------------|
+| Transition learning task (default) | `MB`                |
+| Two-step task                      | `MFMB`              |
+| Model-free learning task           | `MF`                |
+
+If the `TASK` URL variable is not set, the task will default to the transition learning task.
+
+The different configurations change the task format as follows:
+
+| Task Configuration | Explosion probabilities | Ball colours | Ball colour probabilities | Confidence trials |
+|--------------------|-------------------------|--------------|---------------------------|-------------------|
+| Transition learning task | Shown | Pink/Purple | Not shown | ✅ |
+| Two-step task | Not shown | Pink/Purple | Shown | ❌ |
+| Model-free learning task | Not shown | Grey| N/A | ❌ |
+
+>NOTE: Currently the model-free version is not implemented.
+
+### Data saving
+
+#### Google Firebase
+
+The implementation here is designed to use [Google Firebase](https://firebase.google.com/) to store data, but the code can be modified to use other data storage solutions.
+
+If using Firebase, the code expects to find a set of collections and documents as follows:
+
+```
+cannonball (collection)
+└── cannonball (document)
+    └── subjects (collection)
+```
+
+The `subjects` collection will then be populated with a document for each participant. Firebase rules will need to be set up appropriately - see [this blog post](https://tobywise.com/posts/firebase-for-online-testing/) for more information on how I typically set up firebase.
+
+You can also set up Firebase differently and modify the code to match your setup. See the section below for more details.
+
+#### Other data storage solutions
+
+The code can be modified to use other data storage solutions. Functions for storing data are defined in `src/data.js`, and are called within the main game code. This means that these functions can be modified as necessary to change how data is stored, without needing the change the game code itself.
+
+There are two functions defined in `src/data.js` which will need to be modified:
+
+1. `initSubject`
+
+This initialises a subject within the database, which is normally necessary before any data for the subject can be written.
+
+This function takes the `game` object as an argument, which contains a few useful properties:
+
+- `game.registry.get("subjectID")` - the subject ID
+- `game.registry.get("task")` - the task configuration (e.g., `MB`, `MFMB`, `MF`)
+
+2. `saveData`
+
+This stores the trial data for a given subject. This function takes the `game` object as an argument, which contains the properties listed above, as well as the following:
+
+- `game.registry.get("data")` - data for all trials so far, as an array of objects
+
+Normally the `saveData` function will save all data collected so far. This is a little inefficient, but ensures that we do not lose any data if one attempt to save fails.
+
+As long as these two function are implemented, the rest of the code should work as expected. 

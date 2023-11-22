@@ -847,7 +847,7 @@ class GameScene extends Phaser.Scene {
     saveData() {
 
         // Use the saveData function from data.js
-        saveData(this);
+        saveData(this.game);
 
     }
 
