@@ -44,6 +44,30 @@ The different configurations change the task format as follows:
 
 >NOTE: Currently the model-free version is not implemented.
 
+### Modifying task outcomes
+
+Trial outcomes (i.e., transitions, rewards) are specified in JSON files located in the `src/trial_info` directory. These can be modified as necessary to change the format of the task. The task will automatically detect the number of trials in each file and will loop through them as necessary.
+
+File names for the different task configurations should be:
+
+| Task Configuration | File name |
+|--------------------|-----------|
+| Transition learning task | `trial_info_transition-learning.json` |
+| Two-step task | `trial_info_two-step.json` |
+| Model-free learning task (not yet implemented) | `trial_info_model-free.json` |
+
+### URL parameters
+
+Some useful task settings can be specified through URL parameters. These are listed below:
+
+| Parameter | Description | Default value |
+|-----------|-------------|---------------|
+| `PROLIFIC_PID` | Prolific ID (or any subject ID) | Generates a random integer |
+| `TASK` | Task configuration | `MB` |
+| `SHORT` | Short version of the task (5 trials) | `false` |
+| `TEST` | Test version of the task - skips instructions | `false` |
+| `STUDY` | Study identifier - can be useful for saving data to databases | `NONE` |
+
 ### Data saving
 
 #### Google Firebase
@@ -54,7 +78,7 @@ If using Firebase, the code expects to find a set of collections and documents a
 
 ```
 cannonball (collection)
-└── cannonball (document)
+└── game.config.studyID (document)
     └── subjects (collection)
 ```
 
