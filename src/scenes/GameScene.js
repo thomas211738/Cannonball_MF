@@ -755,9 +755,6 @@ class GameScene extends Phaser.Scene {
         if (!end) {
             console.log("Starting new trial...", this.trialNumber);
 
-            // Update progress monitor
-            this.updateExperimentProgressMonitor();
-
             // store data locally
             this.storeData();
 
