@@ -20,7 +20,7 @@ export function applyGameConfig(game, task) {
     // Apply basic settings
     game.registry.set("trial", 0);
     game.registry.set("data", {});
-    game.config.redirectURL = redirectURL;
+    game.registry.set("redirectURL", redirectURL);
     game.registry.set("alienSpeed", alienSpeed);
     game.registry.set("debugPhysics", debugPhysics);
     game.registry.set("dataSaveInterval", dataSaveInterval);
