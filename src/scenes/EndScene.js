@@ -78,10 +78,7 @@ class EndScene extends Phaser.Scene {
             "pointerdown",
             function (pointer) {
                 // GO TO URL
-                window.location.href =
-                    "https://tw-surveys.web.app/?PROLIFIC_PID=" +
-                    subjectID +
-                    "&Q_ID=TU_Q2&STUDY_ID=questionnaires_2&EXPERIMENT_ID=cannonball_TU";
+                window.location.href = this.registry.get("redirectURL");
             }.bind(this)
         );
     }
