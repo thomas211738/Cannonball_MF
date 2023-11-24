@@ -584,11 +584,17 @@ class GameScene extends Phaser.Scene {
                 this.trialInfo[this.trialNumber][`purpleOption${side + 1}`] ===
                 1
             ) {
+                // Store ball colour
+                this.ballColour = "purple";
+                // Fire
                 this.ball_purple.fire(
                     sideString,
                     this.trialInfo[this.trialNumber]["purpleExplode"] === 0
                 );
             } else {
+                // Store ball colour
+                this.ballColour = "pink";
+                // Fire
                 this.ball_pink.fire(
                     sideString,
                     this.trialInfo[this.trialNumber]["pinkExplode"] === 0
@@ -749,14 +755,17 @@ class GameScene extends Phaser.Scene {
         // increment trial number
         this.trialNumber += 1;
 
+        // store data locally (but not on the 0th trial before we have any data)
+        if (this.trialNumber != 0) {
+            this.storeData();
+        }
+        
+
         // Go to end scene if all trials completed
         let end = this.handleEndScene();
 
         if (!end) {
             console.log("Starting new trial...", this.trialNumber);
-
-            // store data locally
-            this.storeData();
 
             // Update trial counter
             this.topUI.updateTrial(this.totalTrials, this.trialNumber);
@@ -765,7 +774,7 @@ class GameScene extends Phaser.Scene {
             this.pinkBet = this.purpleBet = -999;
 
             // Save data every 5 trials
-            if (this.trialNumber % this.dataSaveInterval == 0) {
+            if (this.trialNumber != 0 && this.trialNumber % this.dataSaveInterval == 0) {
                 this.saveData();
             }
 
