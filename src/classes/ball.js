@@ -163,7 +163,7 @@ class Ball extends Phaser.Physics.Arcade.Sprite {
         }
 
         // things to change in scene
-        this.scene.ballColour = "pink";
+        this.scene.ballColour = this.currentColour;
         // freeze cannon if on confidence trial
         if (this.scene.confidenceShown) {
             this.scene.cannon.setFrozen(true);

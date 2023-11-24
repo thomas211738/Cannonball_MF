@@ -584,17 +584,11 @@ class GameScene extends Phaser.Scene {
                 this.trialInfo[this.trialNumber][`purpleOption${side + 1}`] ===
                 1
             ) {
-                // Store ball colour
-                this.ballColour = "purple";
-                // Fire
                 this.ball_purple.fire(
                     sideString,
                     this.trialInfo[this.trialNumber]["purpleExplode"] === 0
                 );
             } else {
-                // Store ball colour
-                this.ballColour = "pink";
-                // Fire
                 this.ball_pink.fire(
                     sideString,
                     this.trialInfo[this.trialNumber]["pinkExplode"] === 0
