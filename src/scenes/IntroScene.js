@@ -90,7 +90,12 @@ class IntroScene extends Phaser.Scene {
             repeat: 0,
             onComplete: function () {
                 // Starts the next scene after the animation is complete
-                this.scene.start('TrainingScene');
+                if (this.game.config.testing) {
+                    this.scene.start('GameScene');
+                }
+                else {
+                    this.scene.start('TrainingScene');
+                }
             }.bind(this),
         });
     }

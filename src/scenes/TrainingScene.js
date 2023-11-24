@@ -9,12 +9,7 @@ class TrainingScene extends GameScene {
     init(data) {
         super.init(data);
         this.trainingPhase = 0;
-
-        // if testing, set training phase to 7
-        if (this.game.config.testing) {
-            this.trainingPhase = 10;
-        }
-
+        
         // Get task type
         this.task = this.game.registry.get("task");
 
