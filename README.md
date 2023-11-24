@@ -42,7 +42,7 @@ The different configurations change the task format as follows:
 | Two-step task | Not shown | Pink/Purple | Shown | ❌ |
 | Model-free learning task | Not shown | Grey| N/A | ❌ |
 
->NOTE: Currently the model-free version is not implemented.
+> ⚠ NOTE: The model-free learning task is not yet implemented.
 
 ### Modifying task outcomes
 
