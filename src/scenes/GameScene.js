@@ -22,7 +22,7 @@ class GameScene extends Phaser.Scene {
     init(data) {
         // STARTING VALUES
         // Keep track of trial number
-        this.trialNumber = -1;
+        this.trialNumber = 20;
 
         // Score
         this.score = 0;
@@ -789,6 +789,9 @@ class GameScene extends Phaser.Scene {
             // Handle the broken trial
             this.handleBrokenTrial(currentTrialInfo);
 
+            // Set blocked container side
+            this.handleCannonBlocking(currentTrialInfo);
+
             // Show confidence UI with probability
             this.handleConfidenceTrial(currentTrialInfo);
 
@@ -800,6 +803,24 @@ class GameScene extends Phaser.Scene {
 
             // Set cannon active
             this.cannonActive = true;
+        }
+    }
+
+    /**
+     * Handles the blocking of the cannon containers based on the current trial information.
+     * @param {Object} currentTrialInfo - The current trial information.
+     */
+    handleCannonBlocking(currentTrialInfo) {
+        // Get the blocked side from the current trial information
+        this.blockedSide = currentTrialInfo["blockedSide"];
+
+        // Check if there is a blocked side
+        if (this.blockedSide > -1) {
+            // Block the corresponding container
+            this.cannon.blockContainer(this.blockedSide);
+        } else {
+            // Unblock both containers
+            this.cannon.unblockContainers();
         }
     }
 
@@ -865,11 +886,11 @@ class GameScene extends Phaser.Scene {
 
     1;
     showConfidence() {
-        // block one side
-        this.blockedSide = this.trialInfo[this.trialNumber]["blockedSide"];
-
-        // show corresponding blocked tape image
-        this.cannon.blockContainer(this.blockedSide);
+        // // block one side
+        // this.blockedSide = this.trialInfo[this.trialNumber]["blockedSide"];
+        
+        // // show corresponding blocked tape image
+        // this.cannon.blockContainer(this.blockedSide);
 
         // Record trial type
         if (this.brokenTrial) {
@@ -915,11 +936,6 @@ class GameScene extends Phaser.Scene {
      * Hides the confidence UI and resets various game elements.
      */
     hideConfidence() {
-        // Set blocked side to -1
-        this.blockedSide = -1;
-
-        // Unblock containers
-        this.cannon.unblockContainers();
 
         // Update score text
         this.topUI.updateScore(this.score);
