@@ -315,6 +315,9 @@ class TrainingScene extends GameScene {
                 this.instructionBoxContainerRight.show();
                 break;
             case 3:
+                // Make sure we don't show a confidence trial somehow
+                this.hideConfidence();
+                
                 // Hide container instruction boxes and show balls instruction box
                 this.instructionBoxContainerLeft.hide();
                 this.instructionBoxContainerRight.hide();
