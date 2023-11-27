@@ -753,7 +753,6 @@ class GameScene extends Phaser.Scene {
         if (this.trialNumber != 0) {
             this.storeData();
         }
-        
 
         // Go to end scene if all trials completed
         let end = this.handleEndScene();
@@ -768,7 +767,10 @@ class GameScene extends Phaser.Scene {
             this.pinkBet = this.purpleBet = -999;
 
             // Save data every 5 trials
-            if (this.trialNumber != 0 && this.trialNumber % this.dataSaveInterval == 0) {
+            if (
+                this.trialNumber != 0 &&
+                this.trialNumber % this.dataSaveInterval == 0
+            ) {
                 this.saveData();
             }
 
@@ -810,7 +812,6 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-
     handleEndScene() {
         if (this.trialNumber === this.totalTrials) {
             console.log("Ending game...");
@@ -845,9 +846,20 @@ class GameScene extends Phaser.Scene {
      * Saves the trial data to the Firestore database.
      */
     saveData() {
-
-        // Use the saveData function from data.js
-        saveData(this.game);
+        // Check the init_subject_failed flag in the registry
+        if (this.registry.get("init_subject_failed")) {
+            // Log a warning if the flag is set
+            console.warn(
+                "Failed to save data because subject initialization failed."
+            );
+            // Return early
+            return;
+        }
+        // Otherwise, save data
+        else {
+            // Use the saveData function from data.js
+            saveData(this.game);
+        }
 
     }
 

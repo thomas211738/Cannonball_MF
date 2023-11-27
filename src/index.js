@@ -48,7 +48,15 @@ var startGame = function (uid) {
         game.config.uid = uid;
 
         // Initialise the subject in the database
-        initSubject(game);
+        // Try to initialize the subject
+        try {
+            initSubject(game);
+        } catch (error) {
+            // Log a warning if initialization fails
+            console.warn("Failed to initialise subject:", error);
+            // Set a flag in the registry to indicate initialization failure
+            game.registry.set("init_subject_failed", true);
+        }
     
         // Store the start time in the registry
         game.registry.set("start_time", new Date());
