@@ -186,19 +186,8 @@ class GameScene extends Phaser.Scene {
             return 0;
         }
 
-        // Convert the alien color hex string to "pink" or "purple"
-        let alienColorString;
-
-        // Convert the alien color hex string to "pink" or "purple"
-        alienColorString = alienColor === "#FF0180" ? "pink" : "purple";
-        
-        console.log('BET COLOR', betColor);
-        console.log('BET AMOUNT', betAmount);
-        console.log('ALIEN COLOR', alienColorString);
-        console.log('SCORE COLOR', scoreColor);
-
         // Calculate the score modifier based on whether the alien color matches the bet color
-        const scoreModifier = alienColorString === betColor ? 1 : -1;
+        const scoreModifier = alienColor === betColor ? 1 : -1;
 
         // Set the bonus text to display the bet amount with a '+' sign if the score modifier is positive
         this.bonusText.setBonusText(
@@ -207,8 +196,6 @@ class GameScene extends Phaser.Scene {
 
         // Calculate the score increase by multiplying the bet amount with the score modifier
         const scoreIncrease = betAmount * scoreModifier;
-
-        console.log('SCORE INCREASE', scoreIncrease);
 
         // Set the bonus text color to the specified score color
         this.bonusText.setBonusTextColour(scoreColor);
@@ -703,7 +690,7 @@ class GameScene extends Phaser.Scene {
         } else {
             // Set original textures for pink and purple balls
             [this.ball_pink, this.ball_purple].forEach((ball) =>
-                ball.setTexture(`ball_${ball.originalColour}`)
+                ball.setColoured()
             );
 
             // Hide grey instruction box
