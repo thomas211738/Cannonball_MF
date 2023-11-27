@@ -21,6 +21,10 @@ var startGame = function (uid) {
     // Wait a bit before starting
     setTimeout(function () {
 
+        // Subject and study IDs stored in registry
+        game.registry.set("subjectID", subjectID);
+        game.registry.set("studyID", studyID.toLowerCase());
+
         // Create the game with the configuration object defined above
         let game = new Phaser.Game(gameConfig);
 
@@ -35,10 +39,6 @@ var startGame = function (uid) {
 
         // Short version for testing?
         game.registry.set("short", short);
-
-        // Subject and study IDs stored in registry
-        game.registry.set("subjectID", subjectID);
-        game.registry.set("studyID", studyID.toLowerCase());
 
         // Store task type in registry
         game.registry.set("task", task);
