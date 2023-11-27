@@ -22,7 +22,7 @@ class GameScene extends Phaser.Scene {
     init(data) {
         // STARTING VALUES
         // Keep track of trial number
-        this.trialNumber = 20;
+        this.trialNumber = -1;
 
         // Score
         this.score = 0;
