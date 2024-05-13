@@ -119,7 +119,7 @@ class BallContainer {
 
         // Ball probabilities - we only specify pink as purple is 1 - pinkProb
         this.showBallColourProbs = showBallColourProbs;
-        this.pinkProb = 0.8;
+        this.pinkProb = 0;
         if (showBallColourProbs) {
             this.ring.setScale(0.07);
             this.createBalls();
@@ -222,11 +222,11 @@ class BallContainer {
             });
         }
     }
-
+    
     updateBallColourProbabilities(pinkProb) {
 
         // if pinkProb < 0, set all balls to gray
-        if (pinkProb < 0) {
+        if (this.pinkProb < 0) {
             this.balls.children.iterate(ball => {
                 ball.setTexture("ball_grey");
             });

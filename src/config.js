@@ -17,6 +17,7 @@ const gameConfigSettings = {
     MB: {
         showExplodeChanceBars: true,
         showBallColourProbabilities: false,
+        ballsAreGrey: false,
         leftPinkChance: 0.7,
         rightPinkChance: 0.3,
         showBrokenInstructions: true,
@@ -27,6 +28,7 @@ const gameConfigSettings = {
     MBMF: {
         showExplodeChanceBars: false,
         showBallColourProbabilities: true,
+        ballsAreGrey: false,
         leftPinkChance: 0.7,
         rightPinkChance: 0.3,
         showBrokenInstructions: false,
@@ -36,7 +38,8 @@ const gameConfigSettings = {
     // Task-specific settings - Model-Free Task
     MF: {
         showExplodeChanceBars: false,
-        showBallColourProbabilities: true,
+        showBallColourProbabilities: false,
+        ballsAreGrey: true,
         leftPinkChance: -1,
         rightPinkChance: -1,
         showBrokenInstructions: false,

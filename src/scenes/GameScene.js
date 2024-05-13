@@ -98,6 +98,9 @@ class GameScene extends Phaser.Scene {
         // Retrieve whether to show explode chance bars
         this.showExplodeChanceBars = this.registry.get("showExplodeChanceBars");
 
+        // Retrieve whether the cannon balls should be grey instead of coloured
+        this.ballsAreGrey = this.registry.get("ballsAreGrey");
+
         // Retrieve whether to show the probability of pink/purple balls
         this.showBallColourProbabilities = this.registry.get(
             "showBallColourProbabilities"
@@ -362,11 +365,18 @@ class GameScene extends Phaser.Scene {
      * Sets up event listeners for exploded, offScreen, and missed events.
      */
     createBalls() {
+        // Create grey cannonball
+        this.ball_grey = new Ball(this, 300, 800, "grey", 0.05);
+        if (this.ballsAreGrey == true) {
+            this.ball_pink = new Ball(this, 300, 800, "grey", 0.05)
+            this.ball_purple = new Ball(this, 300, 800, "grey", 0.05)
+             }
+        else {
         // Create pink cannonball
         this.ball_pink = new Ball(this, 300, 800, "pink", 0.05);
         // Create purple cannonball
         this.ball_purple = new Ball(this, 300, 800, "purple", 0.05);
-
+        }        
         // Listen for the 'exploded' event
         this.ball_pink.on("exploded", (ball) => {
             this.handleBallExplosion(ball);

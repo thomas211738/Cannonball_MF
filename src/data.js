@@ -12,7 +12,7 @@ import {
 export function initSubject(game) {
     const docRef = doc(
         game.config.db,
-        "cannonball_TU",
+        "Cannonball_MF_pilot",
         game.config.studyID,
         "subjects",
         game.config.uid
@@ -41,12 +41,44 @@ export function saveData(game) {
     // Get a reference to the document in the Firestore database
     const docRef = doc(
         game.config.db,
-        "cannonball_TU",
+        "Cannonball_MF_pilot",
         game.config.studyID,
         "subjects",
         game.config.uid
     );
+    // Get the existing document
+    getDoc(docRef)
+        .then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                if (data.trial_data.length == 180) {
+                    // If the subject has completed 180 trials, save their data in a new document in the 'completedSubjects' collection
+                    const completedDocRef = doc(game.config.db, 'Cannonball_MF_pilot', game.config.studyID, 'completedSubjects', game.config.uid);
+                    setDoc(completedDocRef, {
+                        trial_data: game.registry.get("data"),
+                    })
+                        .then(() => {
+                            console.log("Data successfully updated in completedSubjects!");
+                        })
+                        .catch((error) => {
+                            console.error("Error updating document in completedSubjects: ", error);
+                        });
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error getting document: ", error);
+        });
 
+
+    
+
+
+
+
+
+
+    
     // Update the document with the trial data
     updateDoc(docRef, {
         trial_data: game.registry.get("data"),

@@ -98,7 +98,7 @@ export function extractUrlVariables() {
     var short = urlParams.has('SHORT');
 
     // Get task type from URL
-    var task = urlParams.has('TASK') ? getQueryVariable('TASK') : "MB";
+    var task = urlParams.has('TASK') ? getQueryVariable('TASK') : "MF";
 
     return {
         subjectID: subjectID,
