@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "csv-writer": "^1.6.0",
+    "firebase": "^10.12.3",
+    "firebase-admin": "^12.2.0"
+  },
+  "name": "cannon-ball_test",
+  "description": "This task is an extension of the \"Cannon Blast\" game developed by the [Gillan Lab](https://gillanlab.com/), reported in [Donegan et al. (2023)](https://psyarxiv.com/hpm4s/).\r The original task represents a gamified version of the [\"two-step\" task](http://www.sciencedirect.com/science/article/pii/S0896627311001255) and assesses the extent to which individuals use model-based or model-free decision-making strategies.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

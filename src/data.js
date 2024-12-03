@@ -3,6 +3,8 @@ import {
     setDoc,
     updateDoc,    
 } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { gameConfigSettings } from "./config.js";
+
 
 
 /**
@@ -22,6 +24,7 @@ export function initSubject(game) {
         subjectID: game.registry.get("subjectID"),
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
+        trial_info_file: gameConfigSettings.MF.trialInfoFile,
         trial_data: [],
         attention_checks: [],
     })
@@ -46,39 +49,7 @@ export function saveData(game) {
         "subjects",
         game.config.uid
     );
-    // Get the existing document
-    docRef.get()
-        .then((docSnapshot) => {
-            if (docSnapshot.exists()) {
-                const data = docSnapshot.data();
-                if (data.trial_data.length == 6) {
-                    // If the subject has completed 180 trials, save their data in a new document in the 'completedSubjects' collection
-                    const completedDocRef = doc(game.config.db, 'Cannonball_MF_pilot', game.config.studyID, 'completedSubjects', game.config.uid);
-                    completedDocRef.set({
-                        trial_data: game.registry.get("data"),
-                    })
-                        .then(() => {
-                            console.log("Data successfully updated in completedSubjects!");
-                        })
-                        .catch((error) => {
-                            console.error("Error updating document in completedSubjects: ", error);
-                        });
-                }
-            }
-        })
-        .catch((error) => {
-            console.error("Error getting document: ", error);
-        });
-
-
-    
-
-
-
-
-
-
-    
+        
     // Update the document with the trial data
     updateDoc(docRef, {
         trial_data: game.registry.get("data"),

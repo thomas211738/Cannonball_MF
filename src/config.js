@@ -1,3 +1,8 @@
+// This function returns a random trial info file for the model-free task on each run
+function getRandomTrialInfoFile() {
+    const files = ["trial_info_model-free_LW_SF.json", "trial_info_model-free_LW_VF.json", "trial_info_model-free_RW_SF.json", "trial_info_model-free_RW_VF.json"];
+    return files[Math.floor(Math.random() * files.length)];
+}
 const gameConfigSettings = {
 
     // UPDATE TASK SETTINGS HERE
@@ -6,7 +11,7 @@ const gameConfigSettings = {
     // General settings
 
     // URL to redirect to after the game is complete
-    redirectURL: "www.redirecturl.com",
+    redirectURL: "https://app.prolific.com/submissions/complete?cc=CC6FNRFD",
 
     // Settings for game play
     alienSpeed: 120,
@@ -43,8 +48,9 @@ const gameConfigSettings = {
         leftPinkChance: -1,
         rightPinkChance: -1,
         showBrokenInstructions: false,
-        trialInfoFile: "trial_info_model-free.json"
+        trialInfoFile: getRandomTrialInfoFile()
     }
+    
 };
 
 export { gameConfigSettings };
