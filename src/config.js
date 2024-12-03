@@ -1,8 +1,19 @@
 // This function returns a random trial info file for the model-free task on each run
-function getRandomTrialInfoFile() {
-    const files = ["trial_info_model-free_LW_SF.json", "trial_info_model-free_LW_VF.json", "trial_info_model-free_RW_SF.json", "trial_info_model-free_RW_VF.json"];
-    return files[Math.floor(Math.random() * files.length)];
+// (You can implement for the other tasks as well)
+function getRandomTrialInfoFile(array) {
+    if (array.length === 0) {
+        throw new Error("The array is empty.");
+    }
+    const randomFile = files[Math.floor(Math.random() * files.length)];
+    console.log("Selected file:", randomFile); // Log the selected trial info file
+    return randomFile;
 }
+const files = [
+    "trial_info_model-free_LW_SF.json",
+    "trial_info_model-free_LW_VF.json",
+    "trial_info_model-free_RW_SF.json",
+    "trial_info_model-free_RW_VF.json"
+]; // Add the trial info files here
 const gameConfigSettings = {
 
     // UPDATE TASK SETTINGS HERE
@@ -48,7 +59,7 @@ const gameConfigSettings = {
         leftPinkChance: -1,
         rightPinkChance: -1,
         showBrokenInstructions: false,
-        trialInfoFile: getRandomTrialInfoFile()
+        trialInfoFile: getRandomTrialInfoFile(files)
     }
     
 };
