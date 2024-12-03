@@ -8,12 +8,14 @@ function getRandomTrialInfoFile(array) {
     console.log("Selected file:", randomFile); // Log the selected trial info file
     return randomFile;
 }
+
 const files = [
     "trial_info_model-free_LW_SF.json",
     "trial_info_model-free_LW_VF.json",
     "trial_info_model-free_RW_SF.json",
     "trial_info_model-free_RW_VF.json"
 ]; // Add the trial info files here
+
 const gameConfigSettings = {
 
     // UPDATE TASK SETTINGS HERE

@@ -1,6 +1,6 @@
 // Firebase
 import { signInAndGetUid, db } from "./firebaseSetup.js";
-import { initSubject } from "./data.js";
+import { initSubject } from "./data3sessions.js";
 // Other things
 import { extractUrlVariables, applyGameConfig } from "./utils.js";
 import gameConfig from './gameConfig.js';
@@ -47,10 +47,13 @@ var startGame = function (uid) {
         game.config.db = db;
         game.config.uid = uid;
 
+        // Parse session number from URL or default to 1
+        const currentSessionNumber = parseInt(session, 10) || 1;
+
         // Initialise the subject in the database
         // Try to initialize the subject
         try {
-            initSubject(game);
+            initSubject(game, currentSessionNumber);
         } catch (error) {
             // Log a warning if initialization fails
             console.warn("Failed to initialise subject:", error);

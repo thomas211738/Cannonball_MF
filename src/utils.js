@@ -81,6 +81,7 @@ let getQueryVariable = (variable) => {
  *  - studyID: The study ID from the URL or "NONE".
  *  - short: A boolean indicating whether the "SHORT" variable is present in the URL.
  *  - task: The task type from the URL or "MB".
+ *  - session: The session number from the URL or 1 by default.
  */
 export function extractUrlVariables() {
     var urlParams = new URLSearchParams(window.location.search);
@@ -100,12 +101,16 @@ export function extractUrlVariables() {
     // Get task type from URL
     var task = urlParams.has('TASK') ? getQueryVariable('TASK') : "MF";
 
+    // Get session number, default to 1 if not specified
+    var session = urlParams.has('SESSION') ? parseInt(getQueryVariable('SESSION'), 10) : 1;
+
     return {
         subjectID: subjectID,
         testing: testing,
         studyID: studyID,
         short: short,
-        task: task
+        task: task,
+        session: session
     };
 }
 
