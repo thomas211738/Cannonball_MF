@@ -1,36 +1,29 @@
-import { doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "./firebaseSetup.js"; // Import db from your setup file
 import { gameConfigSettings } from "./config.js";
 
-/**
- * Initializes the subject data in the Firestore database.
- * If the subject exists in the previous session, moves them to the current session with the same trial info file.
- * @param {object} game - The game object.
- * @param {number} currentSessionNumber - The current session number (1, 2, or 3).
- */
 export async function initSubject(game, currentSessionNumber) {
-    const db = game.config.db;
-    const uid = game.config.uid;
+    if (!db) {
+        console.error("Firestore database not initialized.");
+        return;
+    }
 
+    const uid = game.config.uid;
     const currentSessionPath = `Cannonball_MF_test_retest_3sessions/session ${currentSessionNumber}/subjects`;
     const previousSessionPath = `Cannonball_MF_test_retest_3sessions/session ${currentSessionNumber - 1}/subjects`;
     const currentDocRef = doc(db, currentSessionPath, uid);
 
     try {
-        // Check if the participant already exists in the current session
         const currentDocSnap = await getDoc(currentDocRef);
         if (currentDocSnap.exists()) {
             console.log(`Participant already exists in session ${currentSessionNumber}`);
-            return; // Do nothing if they already exist
+            return;
         }
 
-        // Initialize for Session 1 or retrieve trial info file from the previous session
         let trialInfoFile = gameConfigSettings.MF.trialInfoFile;
-
         if (currentSessionNumber > 1) {
-            // Check the previous session for the participant's trial info file
             const previousDocRef = doc(db, previousSessionPath, uid);
             const previousDocSnap = await getDoc(previousDocRef);
-
             if (previousDocSnap.exists()) {
                 trialInfoFile = previousDocSnap.data().trial_info_file;
                 console.log(`Using trial info file from session ${currentSessionNumber - 1}: ${trialInfoFile}`);
@@ -39,15 +32,14 @@ export async function initSubject(game, currentSessionNumber) {
             }
         }
 
-        // Save the participant to the current session with the trial info file
         await setDoc(currentDocRef, {
             subjectID: game.registry.get("subjectID"),
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString(),
             trial_info_file: trialInfoFile,
-            trial_data: [], // Placeholder for trial data
-            attention_checks: [], // Placeholder for attention checks
-        });
+            trial_data: [],
+            attention_checks: [],
+        }, { merge: true });
 
         console.log(`Participant initialized for session ${currentSessionNumber} with trial info file: ${trialInfoFile}`);
     } catch (error) {
@@ -55,27 +47,27 @@ export async function initSubject(game, currentSessionNumber) {
     }
 }
 
-/**
- * Saves the trial data to the Firestore database.
- * @param {object} game - The game object.
- */
 export function saveData(game) {
+    if (!db) {
+        console.error("Firestore database not initialized.");
+        return;
+    }
+
     const docRef = doc(
-        game.config.db,
+        db,
         "Cannonball_MF_test_retest_3sessions",
-        game.config.studyID,
+        String(game.config.studyID),
         "subjects",
-        game.config.uid
+        String(game.config.uid)
     );
 
-    // Update the document with the trial data
     updateDoc(docRef, {
-        trial_data: game.registry.get("data"),
+        trial_data: game.registry.get("data") || [],
     })
         .then(() => {
             console.log("Data successfully updated!");
         })
         .catch((error) => {
-            console.error("Error updating document: ", error);
+            console.error("Error updating document:", error);
         });
 }

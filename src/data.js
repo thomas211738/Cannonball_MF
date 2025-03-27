@@ -1,23 +1,28 @@
-import {
-    doc,
-    setDoc,
-    updateDoc,    
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { doc, setDoc } from "firebase/firestore"; // Removed unused updateDoc, fixed semicolon
 import { gameConfigSettings } from "./config.js";
-
-
+import { db } from "./firebaseSetup.js";
 
 /**
  * Initializes the subject data in the Firestore database.
- * @param {object} game - The game object.
+ * @param {object} game - The game object containing config and registry data.
  */
 export function initSubject(game) {
+    if (!db) {
+        console.error("Firestore database not initialized.");
+        return;
+    }
+
+    if (!game?.config?.studyID || !game?.config?.uid) {
+        console.error("Missing studyID or uid in game config.");
+        return;
+    }
+
     const docRef = doc(
-        game.config.db,
+        db,
         "Cannonball_MF_pilot",
-        game.config.studyID,
+        String(game.config.studyID),
         "subjects",
-        game.config.uid
+        String(game.config.uid)
     );
 
     setDoc(docRef, {
@@ -27,7 +32,7 @@ export function initSubject(game) {
         trial_info_file: gameConfigSettings.MF.trialInfoFile,
         trial_data: [],
         attention_checks: [],
-    })
+    }, { merge: true }) // Added merge: true to avoid overwriting
         .then(() => {
             console.log("Data successfully written!");
         })
@@ -38,28 +43,36 @@ export function initSubject(game) {
 
 /**
  * Saves the trial data to the Firestore database.
- * @param {object} scene - The scene object.
+ * @param {object} game - The game object containing config and registry data.
  */
 export function saveData(game) {
-    // Get a reference to the document in the Firestore database
+    if (!db) {
+        console.error("Firestore database not initialized correctly.");
+        return;
+    }
+
+    if (!game?.config?.studyID || !game?.config?.uid) {
+        console.error("Missing studyID or uid in game config.");
+        return;
+    }
+
+    console.log("DB before doc:", db);
+
     const docRef = doc(
-        game.config.db,
+        db,
         "Cannonball_MF_pilot",
-        game.config.studyID,
+        String(game.config.studyID),
         "subjects",
-        game.config.uid
+        String(game.config.uid)
     );
-        
-    // Update the document with the trial data
-    updateDoc(docRef, {
-        trial_data: game.registry.get("data"),
-    })
+
+    setDoc(docRef, {
+        trial_data: game.registry.get("data") || [],
+    }, { merge: true })
         .then(() => {
-            // Log a success message when the data is successfully updated
-            console.log("Data successfully updated!");
+            console.log("Data successfully saved!");
         })
         .catch((error) => {
-            // Log an error message if there is an error updating the document
-            console.error("Error updating document: ", error);
+            console.error("Error saving document:", error);
         });
 }

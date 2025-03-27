@@ -1,5 +1,5 @@
 // Firebase
-import { signInAndGetUid, db } from "./firebaseSetup.js";
+import { db } from "./firebaseSetup.js";
 import { initSubject } from "./data3sessions.js";
 // Other things
 import { extractUrlVariables, applyGameConfig } from "./utils.js";
@@ -48,7 +48,7 @@ var startGame = function (uid) {
         game.config.uid = uid;
 
         // Parse session number from URL or default to 1
-        const currentSessionNumber = parseInt(session, 10) || 1;
+        const currentSessionNumber = parseInt(1, 10) || 1;
 
         // Initialise the subject in the database
         // Try to initialize the subject
@@ -70,12 +70,5 @@ var startGame = function (uid) {
     }, 1000);
 };
 
-// Sign in and start the game
-signInAndGetUid()
-    .then((uid) => {
-        console.log("Signed in with UID:", uid);
-        startGame(uid); // Pass uid as an argument to startGame
-    })
-    .catch((error) => {
-        console.error("Sign-in failed:", error);
-    });
+startGame(1); // Pass uid as an argument to startGame
+

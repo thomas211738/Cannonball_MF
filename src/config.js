@@ -33,7 +33,7 @@ const gameConfigSettings = {
 
     // Task-specific settings - Transition Learning Task
     MB: {
-        showExplodeChanceBars: true,
+        showExplodeChanceBars: false,
         showBallColourProbabilities: false,
         ballsAreGrey: false,
         leftPinkChance: 0.7,

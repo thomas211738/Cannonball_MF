@@ -31,10 +31,10 @@ export function applyGameConfig(game, task) {
             applyTaskSpecificSettings(game, MB);
             break;
         case "MBMF":
-            applyTaskSpecificSettings(game, MBMF);
+            applyTaskSpecificSettings(game, MB);
             break;
         case "MF":
-            applyTaskSpecificSettings(game, MF);
+            applyTaskSpecificSettings(game, MB);
             break;
         default:
             throw new Error("Invalid task type");
@@ -99,7 +99,7 @@ export function extractUrlVariables() {
     var short = urlParams.has('SHORT');
 
     // Get task type from URL
-    var task = urlParams.has('TASK') ? getQueryVariable('TASK') : "MF";
+    var task = urlParams.has('TASK') ? getQueryVariable('TASK') : "MB";
 
     // Get session number, default to 1 if not specified
     var session = urlParams.has('SESSION') ? parseInt(getQueryVariable('SESSION'), 10) : 1;
