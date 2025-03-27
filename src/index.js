@@ -1,5 +1,5 @@
 // Firebase
-import { db } from "./firebaseSetup.js";
+import { signInAndGetUid, db } from "./firebaseSetup.js";
 import { initSubject } from "./data3sessions.js";
 // Other things
 import { extractUrlVariables, applyGameConfig } from "./utils.js";
@@ -70,5 +70,13 @@ var startGame = function (uid) {
     }, 1000);
 };
 
-startGame(1); // Pass uid as an argument to startGame
+signInAndGetUid()
+     .then((uid) => {
+         console.log("Signed in with UID:", uid);
+         startGame(uid); // Pass uid as an argument to startGame
+     })
+     .catch((error) => {
+         console.error("Sign-in failed:", error);
+     });
+// startGame(1); // Pass uid as an argument to startGame
 
