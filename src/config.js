@@ -5,7 +5,6 @@ function getRandomTrialInfoFile(array) {
         throw new Error("The array is empty.");
     }
     const randomFile = files[Math.floor(Math.random() * files.length)];
-    console.log("Selected file:", randomFile); // Log the selected trial info file
     return randomFile;
 }
 

@@ -124,39 +124,39 @@ class GameScene extends Phaser.Scene {
      */
     preload() {
         // Preload assets for the TwinklingStars class
-        TwinklingStars.preloadAssets(this, "./assets/star.png");
+        TwinklingStars.preloadAssets(this, "/assets/star.png");
 
         // Load cannonballs
         Ball.preloadAssets(
             this,
             this.ballColours,
-            "./assets",
+            "/assets",
             { frameWidth: 100, frameHeight: 100 },
             { frameWidth: 100, frameHeight: 100 }
         );
 
         // Load cannon
-        Cannon.preloadAssets(this, "./assets");
+        Cannon.preloadAssets(this, "/assets");
 
         // Load alien
-        Alien.preloadAssets(this, "./assets");
+        Alien.preloadAssets(this, "/assets");
 
         // UI elements preload
-        TopUI.preloadAssets(this, "./assets");
+        TopUI.preloadAssets(this, "/assets");
 
         // Load asteroids for confidence trials
-        Asteroids.preloadAssets(this, "./assets");
+        Asteroids.preloadAssets(this, "/assets");
 
         // load trial info
         // this.load.json("trial_info", "./src/trial_info/trial_info_TU.json");
         // this.load.json("trial_info", "./src/trial_info/trial_info_two-step.json");
-        this.load.json("trial_info", `./src/trial_info/${this.trialInfoFile}`);
+        this.load.json("trial_info", `/assets/trial_info/${this.trialInfoFile}`);
 
         // Load planet image
-        this.load.image("planet", "./assets/planet.png");
+        this.load.image("planet", "/assets/planet.png");
 
         // Load background image
-        this.load.image("background", "./assets/BG1_resized.png");
+        this.load.image("background", "/assets/BG1_resized.png");
     }
 
     /**
@@ -768,7 +768,6 @@ class GameScene extends Phaser.Scene {
         let end = this.handleEndScene();
 
         if (!end) {
-            console.log("Starting new trial...", this.trialNumber);
 
             // Update trial counter
             this.topUI.updateTrial(this.totalTrials, this.trialNumber);

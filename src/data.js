@@ -56,7 +56,6 @@ export function saveData(game) {
         return;
     }
 
-    console.log("DB before doc:", db);
 
     const docRef = doc(
         db,

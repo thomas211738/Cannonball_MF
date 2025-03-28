@@ -6,8 +6,8 @@ class CannonPointer {
      * @param {Phaser.Scene} scene - The Phaser scene.
      */
     static preloadAssets(scene) {
-        scene.load.image("cannon_pointer", "./assets/cannon_pointer.png");
-        scene.load.image("mask", "./assets/mask.png");
+        scene.load.image("cannon_pointer", "/assets/cannon_pointer.png");
+        scene.load.image("mask", "/assets/mask.png");
         CannonPointer.assetsPreloaded = true;
     }
 
